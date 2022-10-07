@@ -38,11 +38,9 @@
 *.dSYM/
 *.su
 *.idb
-*.pdb
 
 # Kernel Module Compile Results
 *.mod*
-*.cmd
 
 # misc editor files
 *.bak
@@ -54,5 +52,4 @@ dkms.conf
 
 .vs/
 build/
-*.bak
 *.user
