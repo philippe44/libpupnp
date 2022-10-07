@@ -7,6 +7,11 @@ declare -a compilers
 
 IFS= read -ra candidates <<< "$list"
 
+# do we have "clean" somewhere in parameters (assuming no compiler has "clean" in it...
+if [[ $@[*]} =~ clean ]]; then
+	clean="clean"
+fi	
+
 # first select platforms/compilers
 for cc in ${candidates[@]}
 do
@@ -28,10 +33,18 @@ do
 	done
 done
 
+library=libpupnp.a
+
 # then iterate selected platforms/compilers
 for cc in ${compilers[@]}
 do
 	IFS=- read -r platform host dummy <<< $cc
+
+	target=targets/$host/$platform	
+	
+	if [[ -f $target/$library && -z $clean ]]; then
+		continue
+	fi
 
 	pwd=$(pwd)
 	cd pupnp
@@ -42,13 +55,12 @@ do
 	make clean && make
 	cd $pwd
 		
-	target=targets/$host/$platform
 	mkdir -p $target
 	mkdir -p $_/include
 	for item in upnp ixml
 	do
 		cp pupnp/$item/.libs/lib$item.a $target
-		ar -rc --thin $_/libpupnp.a $_/lib$item.a 
+		ar -rc --thin $_/$library $_/lib$item.a 
 		cp -ur pupnp/$item/inc/* $target/include
 		find $_ -type f -not -name "*.h" -exec rm {} +
 	done	
