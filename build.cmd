@@ -2,6 +2,10 @@ setlocal
 
 call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars32.bat"
 
+REM cd pupnp && mkdir build && cd build
+REM cmake .. -A Win32 -DDOWNLOAD_AND_BUILD_DEPS=1
+REM cd ..
+
 ren pupnp\upnp\inc\upnpconfig.h *.bak
 msbuild libpupnp.sln /property:Configuration=Debug %1
 msbuild libpupnp.sln /property:Configuration=Release %1

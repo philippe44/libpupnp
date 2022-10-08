@@ -35,6 +35,13 @@ done
 
 library=libpupnp.a
 
+# bootstrap environment if needed
+if [[ ! -f pupnp/configure ]]; then
+	cd pupnp
+	autoreconf -if
+	cd ..
+fi
+
 # then iterate selected platforms/compilers
 for cc in ${compilers[@]}
 do
