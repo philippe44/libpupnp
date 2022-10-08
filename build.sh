@@ -20,7 +20,7 @@ do
 		continue
 	fi
 	
-	if [[ $# == 0 ]]; then
+	if [[ $# == 0 || ($# == 1 && -n $clean) ]]; then
 		compilers+=($cc)
 		continue
 	fi
@@ -49,7 +49,7 @@ do
 
 	target=targets/$host/$platform	
 	
-	if [[ -f $target/$library && -z $clean ]]; then
+	if [ -f $target/$library ] && [[ -z $clean ]]; then
 		continue
 	fi
 
