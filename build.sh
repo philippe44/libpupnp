@@ -64,6 +64,7 @@ do
 		
 	mkdir -p $target
 	mkdir -p $_/include
+	rm -f $target/$library
 	for item in upnp ixml
 	do
 		cp pupnp/$item/.libs/lib$item.a $target
