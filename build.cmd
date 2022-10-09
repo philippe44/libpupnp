@@ -2,17 +2,26 @@ setlocal
 
 call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars32.bat"
 
-REM cd pupnp && mkdir build && cd build
-REM cmake .. -A Win32 -DDOWNLOAD_AND_BUILD_DEPS=1
-REM cd ..
+if /I [%1] == [rebuild] (
+	rd /q /s pupnp\build
+)
 
-ren pupnp\upnp\inc\upnpconfig.h *.bak
-msbuild libpupnp.sln /property:Configuration=Debug %1
-msbuild libpupnp.sln /property:Configuration=Release %1
-ren pupnp\upnp\inc\upnpconfig.bak *.h
+if not exist pupnp\build (
+	mkdir pupnp\build
+	cd pupnp\build
+	cmake .. -A Win32 -DDOWNLOAD_AND_BUILD_DEPS=1
+	cd ..\..
+)	
+
+if /I [%1] == [rebuild] (
+	set option=":Rebuild"
+)
 
 set target=targets\win32\x86
 
+msbuild libpupnp.sln /property:Configuration=Debug -t:_last%option%
+msbuild libpupnp.sln /property:Configuration=Release -t:_last%option%
+	
 if exist %target% (
 	del %target%\*.lib
 )

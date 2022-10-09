@@ -53,3 +53,5 @@ dkms.conf
 .vs/
 build/
 *.user
+Debug/
+Release/
