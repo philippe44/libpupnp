@@ -52,12 +52,14 @@ do
 	if [ -f $target/$library ] && [[ -z $clean ]]; then
 		continue
 	fi
-
-	pwd=$(pwd)
-	cd pupnp
+	
 	export CPPFLAGS=${cppflags[$cc]} 
 	export CC=${alias[$cc]:-$cc} 
 	export CXX=${CC/gcc/g++}
+
+	pwd=$(pwd)
+	
+	cd pupnp
 	./configure --enable-static --disable-shared --disable-samples --host=$platform-$host 
 	make clean && make
 	cd $pwd
