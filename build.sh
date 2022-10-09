@@ -33,14 +33,20 @@ do
 	done
 done
 
-library=libpupnp.a
+item=pupnp
+library=lib$item.a
+pwd=$(pwd)
 
 # bootstrap environment if needed
-if [[ ! -f pupnp/configure ]]; then
-	cd pupnp
-	autoreconf -if
-	cd ..
-fi
+if [[ ! -f $item/configure && -f $item/configure.ac ]]; then
+	cd $item
+	if [[ -f autogen.sh ]]; then
+		./autogen.sh --no-symlinks
+	else 	
+		autoreconf -if
+	fi	
+	cd $pwd
+fi	
 
 # then iterate selected platforms/compilers
 for cc in ${compilers[@]}
@@ -57,9 +63,7 @@ do
 	export CC=${alias[$cc]:-$cc} 
 	export CXX=${CC/gcc/g++}
 
-	pwd=$(pwd)
-	
-	cd pupnp
+	cd $item
 	./configure --enable-static --disable-shared --disable-samples --host=$platform-$host 
 	make clean && make
 	cd $pwd
@@ -67,11 +71,11 @@ do
 	mkdir -p $target
 	mkdir -p $_/include
 	rm -f $target/$library
-	for item in upnp ixml
+	for subitem in upnp ixml
 	do
-		cp pupnp/$item/.libs/lib$item.a $target
-		ar -rc --thin $_/$library $_/lib$item.a 
-		cp -ur pupnp/$item/inc/* $target/include
+		cp $item/$subitem/.libs/lib$subitem.a $target
+		ar -rc --thin $_/$library $_/lib$subitem.a 
+		cp -ur $item/$subitem/inc/* $target/include
 		find $_ -type f -not -name "*.h" -exec rm {} +
 	done	
 done
