@@ -37,8 +37,8 @@ robocopy pupnp\build\upnp\inc %target%\include\upnp *.h /NDL /NJH /NJS /nc /ns /
 robocopy pupnp\ixml\inc %target%\include\ixml *.h /NDL /NJH /NJS /nc /ns /np
 robocopy addons %target%\include\addons ixmlextra.h /NDL /NJH /NJS /nc /ns /np
 
-lib.exe /OUT:%target%/libpupnp.lib %target%/libupnps.lib %target%/ixmls.lib %target%/libaddons.lib
-lib.exe /OUT:%target%/libpupnpd.lib %target%/libupnpsd.lib %target%/ixmlsd.lib %target%/libaddons.lib
+lib.exe /OUT:%target%/libpupnp.lib %target%/libaddons.lib %target%/libupnps.lib %target%/ixmls.lib 
+lib.exe /OUT:%target%/libpupnpd.lib %target%/libaddons.lib %target%/libupnpsd.lib %target%/ixmlsd.lib 
 
 endlocal
 
