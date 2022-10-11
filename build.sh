@@ -62,7 +62,7 @@ do
 	export CPPFLAGS=${cppflags[$cc]} 
 	export CC=${alias[$cc]:-$cc} 
 	export CXX=${CC/gcc/g++}
-
+	
 	cd $item
 	./configure --enable-static --disable-shared --disable-samples --host=$platform-$host 
 	make clean && make
@@ -70,14 +70,28 @@ do
 		
 	mkdir -p $target
 	mkdir -p $_/include
-	rm -f $target/$library
 	for subitem in upnp ixml
 	do
 		cp $item/$subitem/.libs/lib$subitem.a $target
-		ar -rc --thin $_/$library $_/lib$subitem.a 
 		cp -ur $item/$subitem/inc/* $target/include
 		find $_ -type f -not -name "*.h" -exec rm {} +
 	done	
+	
+	# then build addons (all others *must* be built first)
+	subitem=addons
+	if [ ! -f $target/lib$subitem.a ] || [[ -n $clean ]]; then
+		cd $subitem
+		make clean && make CC=${CC/gcc/g++} PLATFORM=$platform
+		cd $pwd
+		
+		cp $subitem/build/lib$subitem.a $target
+		mkdir -p targets/include/$subitem
+		cp -u $subitem/ixmlextra.h $_
+	fi
+	
+	# finally concatenate all in a thin
+	rm -f $target/$library
+	ar -rc --thin $target/$library $target/*.a
 done
 
 

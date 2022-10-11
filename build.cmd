@@ -30,12 +30,15 @@ robocopy pupnp\build\upnp\Release %target% libupnps.* /NDL /NJH /NJS /nc /ns /np
 robocopy pupnp\build\ixml\Release %target% ixmls.* /NDL /NJH /NJS /nc /ns /np
 robocopy pupnp\build\upnp\Debug %target% libupnpsd.* /NDL /NJH /NJS /nc /ns /np
 robocopy pupnp\build\ixml\Debug %target% ixmlsd.* /NDL /NJH /NJS /nc /ns /np
+robocopy addons\build %target% *.lib /NDL /NJH /NJS /nc /ns /np
+
 robocopy pupnp\upnp\inc %target%\include\upnp *.h /NDL /NJH /NJS /nc /ns /np
 robocopy pupnp\build\upnp\inc %target%\include\upnp *.h /NDL /NJH /NJS /nc /ns /np /IS
 robocopy pupnp\ixml\inc %target%\include\ixml *.h /NDL /NJH /NJS /nc /ns /np
+robocopy addons targets\include\addons ixmlextra.h /NDL /NJH /NJS /nc /ns /np
 
-lib.exe /OUT:%target%/libpupnp.lib %target%/libupnps.lib %target%/ixmls.lib
-lib.exe /OUT:%target%/libpupnpd.lib %target%/libupnpsd.lib %target%/ixmlsd.lib
+lib.exe /OUT:%target%/libpupnp.lib %target%/libupnps.lib %target%/ixmls.lib %target%/libaddons.lib
+lib.exe /OUT:%target%/libpupnpd.lib %target%/libupnpsd.lib %target%/ixmlsd.lib %target%/libaddons.lib
 
 endlocal
 
