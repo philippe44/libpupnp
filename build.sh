@@ -58,7 +58,7 @@ do
 	if [ -f $target/$library ] && [[ -z $clean ]]; then
 		continue
 	fi
-	
+
 	export CPPFLAGS=${cppflags[$cc]} 
 	export CC=${alias[$cc]:-$cc} 
 	export CXX=${CC/gcc/g++}
@@ -68,12 +68,12 @@ do
 	make clean && make
 	cd $pwd
 		
-	mkdir -p $target
-	mkdir -p $_/include
+	mkdir -p $target	
 	for subitem in upnp ixml
 	do
 		cp $item/$subitem/.libs/lib$subitem.a $target
-		cp -ur $item/$subitem/inc/* $target/include
+		mkdir -p $_/include/$subitem
+		cp -ur $item/$subitem/inc/* $_
 		find $_ -type f -not -name "*.h" -exec rm {} +
 	done	
 	
@@ -81,11 +81,11 @@ do
 	subitem=addons
 	if [ ! -f $target/lib$subitem.a ] || [[ -n $clean ]]; then
 		cd $subitem
-		make clean && make CC=${CC/gcc/g++} PLATFORM=$platform
+		make clean && make PLATFORM=$platform
 		cd $pwd
 		
 		cp $subitem/build/lib$subitem.a $target
-		mkdir -p targets/include/$subitem
+		mkdir -p $target/include/$subitem
 		cp -u $subitem/ixmlextra.h $_
 	fi
 	

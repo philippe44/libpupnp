@@ -15,7 +15,8 @@ PUPNP		= ../targets
 #vpath %.c $(TOOLS):$(SRC)
 #vpath %.cpp $(TOOLS):$(SRC)
 
-INCLUDE = -I$(PUPNP)/$(HOST)/$(PLATFORM)/include
+INCLUDE = -I$(PUPNP)/$(HOST)/$(PLATFORM)/include/ixml \
+	  -I$(PUPNP)/$(HOST)/$(PLATFORM)/include/upnp
 		  
 SOURCES = ixmlextra.c
 
