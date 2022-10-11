@@ -13,7 +13,7 @@
 #include "ixml.h"
 
 const char*	XMLGetLocalName(IXML_Document *doc, int Depth);
-IXML_Node*	XMLAddNode(IXML_Document *doc, IXML_Node *parent, char *name, char *fmt, ...);
+__declspec(dllexport) IXML_Node*	XMLAddNode(IXML_Document *doc, IXML_Node *parent, char *name, char *fmt, ...);
 IXML_Node*	XMLUpdateNode(IXML_Document *doc, IXML_Node *parent, bool refresh, char *name, char *fmt, ...);
 int 	   	XMLAddAttribute(IXML_Document *doc, IXML_Node *parent, char *name, char *fmt, ...);
 char*		XMLGetFirstDocumentItem(IXML_Document *doc, const char *item, bool strict);
