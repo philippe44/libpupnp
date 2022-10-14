@@ -20,8 +20,7 @@
 #endif
 
 /*----------------------------------------------------------------------------*/
-IXML_Node* XMLAddNode(IXML_Document* doc, IXML_Node* parent, char* name, char* fmt, ...)
-{
+IXML_Node* XMLAddNode(IXML_Document* doc, IXML_Node* parent, char* name, char* fmt, ...) {
 	IXML_Node* elm = (IXML_Node*)ixmlDocument_createElement(doc, name);
 	if (parent) ixmlNode_appendChild(parent, elm);
 	else ixmlNode_appendChild((IXML_Node*)doc, elm);
@@ -42,10 +41,8 @@ IXML_Node* XMLAddNode(IXML_Document* doc, IXML_Node* parent, char* name, char* f
 	return elm;
 }
 
-
 /*----------------------------------------------------------------------------*/
-IXML_Node* XMLUpdateNode(IXML_Document* doc, IXML_Node* parent, bool refresh, char* name, char* fmt, ...)
-{
+IXML_Node* XMLUpdateNode(IXML_Document* doc, IXML_Node* parent, bool refresh, char* name, char* fmt, ...) {
 	char buf[1024];
 	va_list args;
 	IXML_Node* node = (IXML_Node*)ixmlDocument_getElementById((IXML_Document*)parent, name);
@@ -65,12 +62,25 @@ IXML_Node* XMLUpdateNode(IXML_Document* doc, IXML_Node* parent, bool refresh, ch
 	return node;
 }
 
+/*----------------------------------------------------------------------------*/
+char* XMLDelNode(IXML_Node* from, char* name) {
+	IXML_Node* self = (IXML_Node*)ixmlDocument_getElementById((IXML_Document*)from, name);
+	if (!self) return NULL;
+
+	IXML_Node* node = (IXML_Node*)ixmlNode_getParentNode(self);
+	if (node) ixmlNode_removeChild(node, self, &self);
+
+	node = ixmlNode_getFirstChild(self);
+	char* value = (char*)ixmlNode_getNodeValue(node);
+	if (value) value = strdup(value);
+
+	ixmlNode_free(self);
+	return value;
+}
 
 /*----------------------------------------------------------------------------*/
-char* XMLGetFirstDocumentItem(IXML_Document* doc, const char* item, bool strict)
-{
+char* XMLGetFirstDocumentItem(IXML_Document* doc, const char* item, bool strict) {
 	char* ret = NULL;
-
 	IXML_NodeList* nodeList = ixmlDocument_getElementsByTagName(doc, (char*)item);
 
 	for (int i = 0; nodeList && i < (int)ixmlNodeList_length(nodeList); i++) {
@@ -99,8 +109,7 @@ char* XMLGetFirstDocumentItem(IXML_Document* doc, const char* item, bool strict)
 
 
 /*----------------------------------------------------------------------------*/
-bool XMLMatchDocumentItem(IXML_Document* doc, const char* item, const char* s, bool match)
-{
+bool XMLMatchDocumentItem(IXML_Document* doc, const char* item, const char* s, bool match) {
 	bool ret = false;
 
 	IXML_NodeList* nodeList = ixmlDocument_getElementsByTagName(doc, (char*)item);
@@ -124,8 +133,7 @@ bool XMLMatchDocumentItem(IXML_Document* doc, const char* item, const char* s, b
 
 
 /*----------------------------------------------------------------------------*/
-char* XMLGetFirstElementItem(IXML_Element* element, const char* item)
-{
+char* XMLGetFirstElementItem(IXML_Element* element, const char* item) {
 	char * ret = NULL;
 
 	IXML_NodeList* nodeList = ixmlElement_getElementsByTagName(element, (char*)item);
@@ -145,8 +153,7 @@ char* XMLGetFirstElementItem(IXML_Element* element, const char* item)
 
 
 /*----------------------------------------------------------------------------*/
-int XMLAddAttribute(IXML_Document* doc, IXML_Node* parent, char* name, char* fmt, ...)
-{
+int XMLAddAttribute(IXML_Document* doc, IXML_Node* parent, char* name, char* fmt, ...) {
 	char buf[1024];
 	va_list args;
 
@@ -160,8 +167,7 @@ int XMLAddAttribute(IXML_Document* doc, IXML_Node* parent, char* name, char* fmt
 
 
 /*----------------------------------------------------------------------------*/
-const char* XMLGetLocalName(IXML_Document* doc, int Depth)
-{
+const char* XMLGetLocalName(IXML_Document* doc, int Depth) {
 	IXML_Node* node = (IXML_Node*)doc;
 
 	while (Depth--) {
