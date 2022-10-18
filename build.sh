@@ -65,7 +65,7 @@ do
 	
 	cd $item
 	./configure --enable-static --disable-shared --disable-samples --host=$platform-$host 
-	make clean && make
+	make clean && make -j8
 	cd $pwd
 		
 	mkdir -p $target	
@@ -81,7 +81,7 @@ do
 	subitem=addons
 	if [ ! -f $target/lib$subitem.a ] || [[ -n $clean ]]; then
 		cd $subitem
-		make clean && make PLATFORM=$platform
+		make clean && make PLATFORM=$platform -j8
 		cd $pwd
 		
 		cp $subitem/build/lib$subitem.a $target
