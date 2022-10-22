@@ -1,7 +1,7 @@
 #!/bin/bash
 
-list="x86_64-linux-gnu-gcc x86-linux-gnu-gcc arm-linux-gnueabi-gcc aarch64-linux-gnu-gcc sparc64-linux-gnu-gcc mips-linux-gnu-gcc powerpc-linux-gnu-gcc"
-declare -A alias=( [x86-linux-gnu-gcc]=i686-linux-gnu-gcc )
+list="x86_64-linux-gnu-gcc x86-linux-gnu-gcc arm-linux-gnueabi-gcc aarch64-linux-gnu-gcc sparc64-linux-gnu-gcc mips-linux-gnu-gcc powerpc-linux-gnu-gcc x86_64-macos-darwin-gcc"
+declare -A alias=( [x86-linux-gnu-gcc]=i686-linux-gnu-gcc [x86_64-macos-darwin-gcc]=x86_64-apple-darwin19-gcc )
 declare -A cppflags=( [mips-linux-gnu-gcc]="-march=mips32" [powerpc-linux-gnu-gcc]="-m32")
 declare -a compilers
 
@@ -62,6 +62,8 @@ do
 	export CPPFLAGS=${cppflags[$cc]} 
 	export CC=${alias[$cc]:-$cc} 
 	export CXX=${CC/gcc/g++}
+	export AR=${CC%-*}-ar
+	export RANLIB=${CC%-*}-ranlib
 	
 	cd $item
 	./configure --enable-static --disable-shared --disable-samples --host=$platform-$host 
@@ -81,7 +83,7 @@ do
 	subitem=addons
 	if [ ! -f $target/lib$subitem.a ] || [[ -n $clean ]]; then
 		cd $subitem
-		make clean && make PLATFORM=$platform -j8
+		make clean && make HOST=$host PLATFORM=$platform -j8
 		cd $pwd
 		
 		cp $subitem/build/lib$subitem.a $target
@@ -89,9 +91,14 @@ do
 		cp -u $subitem/ixmlextra.h $_
 	fi
 	
-	# finally concatenate all in a thin
+	# finally concatenate all in a thin (if possible)
 	rm -f $target/$library
-	ar -rc --thin $target/$library $target/*.a
+	if [[ $host =~ linux ]]; then
+		ar -rc --thin $target/$library $target/*.a
+	else
+		# libtool will whine about duplicated symbols
+		${CC%-*}-libtool -static -o $target/$library $target/*.a 
+	fi	
 done
 
 
