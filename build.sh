@@ -15,9 +15,9 @@ declare -A alias=( [x86-linux-gnu-gcc]=i686-stretch-linux-gnu-gcc \
 				   [x86_64-freebsd-gnu-gcc]=x86_64-cross-freebsd12.3-gcc \
 				   [x86_64-solaris-gnu-gcc]=x86_64-cross-solaris2.x-gcc )
 
-declare -A cflags=( [sparc64-linux-gnu-gcc]="-mcpu=v7" \
-                    [mipsel-linux-gnu-gcc]="-march=mips32" \
-					[powerpc-linux-gnu-gcc]="-m32" )
+declare -A cppflags=( [sparc64-linux-gnu-gcc]="-mcpu=v7" \
+                      [mipsel-linux-gnu-gcc]="-march=mips32" \
+                      [powerpc-linux-gnu-gcc]="-m32" )
 					
 declare -a compilers
 
