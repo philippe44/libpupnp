@@ -59,7 +59,7 @@
  * Large file support
  ***************************************************************************/
 
-#define UPNP_LARGEFILE_SENSITIVE 1
+/* #undef UPNP_LARGEFILE_SENSITIVE */
 
 /***************************************************************************
  * Library optional features
