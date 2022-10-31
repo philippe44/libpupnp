@@ -2,7 +2,7 @@
 
 list="x86_64-linux-gnu-gcc x86-linux-gnu-gcc arm-linux-gnueabi-gcc aarch64-linux-gnu-gcc \
       sparc64-linux-gnu-gcc mips-linux-gnu-gcc powerpc-linux-gnu-gcc x86_64-macos-darwin-gcc \
-	  x86_64-freebsd-gnu-gcc x86_64-solaris-gnu-gcc"
+      arm64e-macos-darwin-cc  x86_64-freebsd-gnu-gcc x86_64-solaris-gnu-gcc"
 
 declare -A alias=( [x86-linux-gnu-gcc]=i686-stretch-linux-gnu-gcc \
                    [x86_64-linux-gnu-gcc]=x86_64-stretch-linux-gnu-gcc \
@@ -12,6 +12,7 @@ declare -A alias=( [x86-linux-gnu-gcc]=i686-stretch-linux-gnu-gcc \
                    [mips-linux-gnu-gcc]=mips64-stretch-linux-gnu-gcc \
                    [powerpc-linux-gnu-gcc]=powerpc64-stretch-linux-gnu-gcc \
                    [x86_64-macos-darwin-gcc]=x86_64-apple-darwin19-gcc \
+                   [arm64e-macos-darwin-cc]=arm64e-apple-darwin20.4-cc \
                    [x86_64-freebsd-gnu-gcc]=x86_64-cross-freebsd12.3-gcc \
                    [x86_64-solaris-gnu-gcc]=x86_64-cross-solaris2.x-gcc )
 
@@ -67,6 +68,8 @@ if [[ ! -f $item/configure && -f $item/configure.ac ]]; then
 	cd $pwd
 fi	
 
+declare -A config=( [arm64e-macos]=arm64-macos )
+
 # then iterate selected platforms/compilers
 for cc in ${compilers[@]}
 do
@@ -85,7 +88,7 @@ do
 	export RANLIB=${CC%-*}-ranlib
 	
 	cd $item
-	./configure --enable-static --disable-shared --disable-samples --host=$platform-$host 
+	./configure --enable-static --disable-shared --disable-samples --host=${config["$platform-$host"]:-"$platform-$host"}
 	make clean && make -j8
 	cd $pwd
 		
