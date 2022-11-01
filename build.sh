@@ -81,11 +81,16 @@ do
 		continue
 	fi
 
-	export CFLAGS=${cflags[$cc]} 
-	export CC=${alias[$cc]:-$cc} 
-	export CXX=${CC/gcc/g++}
+	export CFLAGS=${cflags[$cc]}
+	export CC=${alias[$cc]:-$cc}
 	export AR=${CC%-*}-ar
 	export RANLIB=${CC%-*}-ranlib
+	if [[ $CC =~ -gcc ]]; then
+		export CXX=${CC%-*}-g++
+	else
+		export CXX=${CC%-*}-c++
+		CFLAGS+=" -fno-temp-file -stdlib=libc++"
+	fi
 	
 	cd $item
 	./configure --enable-static --disable-shared --disable-samples --host=${config["$platform-$host"]:-"$platform-$host"}
