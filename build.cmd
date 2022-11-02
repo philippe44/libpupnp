@@ -9,7 +9,7 @@ if /I [%1] == [rebuild] (
 if not exist pupnp\build (
 	mkdir pupnp\build
 	cd pupnp\build
-	cmake .. -A Win32 -DDOWNLOAD_AND_BUILD_DEPS=1
+	cmake .. -A Win32 -DDOWNLOAD_AND_BUILD_DEPS=1 -DUPNP_ENABLE_IPV6=OFF
 	cd ..\..
 )	
 
