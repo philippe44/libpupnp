@@ -97,7 +97,7 @@ do
 	fi
 	
 	cd $item
-	./configure --enable-static --disable-shared --disable-samples --disable-ipv6 --host=${config["$platform-$host"]:-"$platform-$host"}
+	./configure --disable-blocking-tcp_connections --enable-static --disable-shared --disable-samples --disable-ipv6 --host=${config["$platform-$host"]:-"$platform-$host"} 
 	make clean && make -j8
 	cd $pwd
 		

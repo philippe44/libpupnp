@@ -116,7 +116,7 @@
 
 /** Defined to 1 if the library has been compiled to use blocking TCP socket
  * calls (i.e. configure --enable_blocking_tcp_connections) */
-#define UPNP_ENABLE_BLOCKING_TCP_CONNECTIONS 1
+/* #undef UPNP_ENABLE_BLOCKING_TCP_CONNECTIONS */
 
 /** Defined to 1 if the library has been compiled to support filesystem writes
  * on POST (i.e. configure --enable-postwrite) */
