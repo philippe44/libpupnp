@@ -1,3 +1,4 @@
 [submodule "pupnp"]
 	path = pupnp
-	url = http://github.com/pupnp/pupnp
+	url = http://github.com/philippe44/pupnp
+	branch = memory
