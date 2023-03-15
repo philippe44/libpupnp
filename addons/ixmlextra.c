@@ -51,7 +51,7 @@ IXML_Node* XMLUpdateNode(IXML_Document* doc, IXML_Node* parent, bool refresh, ch
 	vsnprintf(buf, sizeof(buf), fmt, args);
 
 	if (!node) {
-		XMLAddNode(doc, parent, name, buf);
+		XMLAddNode(doc, parent, name, "%s", buf);
 	} else if (refresh) {
 		node = ixmlNode_getFirstChild(node);
 		ixmlNode_setNodeValue(node, buf);
