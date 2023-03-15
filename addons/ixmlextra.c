@@ -20,7 +20,7 @@
 #endif
 
 /*----------------------------------------------------------------------------*/
-IXML_Node* XMLAddNode(IXML_Document* doc, IXML_Node* parent, char* name, char* fmt, ...) {
+IXML_Node* XMLAddNode(IXML_Document* doc, IXML_Node* parent, const char* name, const char* fmt, ...) {
 	IXML_Node* elm = (IXML_Node*)ixmlDocument_createElement(doc, name);
 	if (parent) ixmlNode_appendChild(parent, elm);
 	else ixmlNode_appendChild((IXML_Node*)doc, elm);
@@ -42,7 +42,7 @@ IXML_Node* XMLAddNode(IXML_Document* doc, IXML_Node* parent, char* name, char* f
 }
 
 /*----------------------------------------------------------------------------*/
-IXML_Node* XMLUpdateNode(IXML_Document* doc, IXML_Node* parent, bool refresh, char* name, char* fmt, ...) {
+IXML_Node* XMLUpdateNode(IXML_Document* doc, IXML_Node* parent, bool refresh, const char* name, const char* fmt, ...) {
 	char buf[1024];
 	va_list args;
 	IXML_Node* node = (IXML_Node*)ixmlDocument_getElementById((IXML_Document*)parent, name);
@@ -63,7 +63,7 @@ IXML_Node* XMLUpdateNode(IXML_Document* doc, IXML_Node* parent, bool refresh, ch
 }
 
 /*----------------------------------------------------------------------------*/
-char* XMLDelNode(IXML_Node* from, char* name) {
+char* XMLDelNode(IXML_Node* from, const char* name) {
 	IXML_Node* self = (IXML_Node*)ixmlDocument_getElementById((IXML_Document*)from, name);
 	if (!self) return NULL;
 
@@ -153,7 +153,7 @@ char* XMLGetFirstElementItem(IXML_Element* element, const char* item) {
 
 
 /*----------------------------------------------------------------------------*/
-int XMLAddAttribute(IXML_Document* doc, IXML_Node* parent, char* name, char* fmt, ...) {
+int XMLAddAttribute(IXML_Document* doc, IXML_Node* parent, const char* name, const char* fmt, ...) {
 	char buf[1024];
 	va_list args;
 
