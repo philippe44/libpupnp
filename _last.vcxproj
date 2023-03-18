@@ -95,7 +95,7 @@
     </Link>
     <CustomBuildStep>
       <Command>last.cmd</Command>
-      <Outputs>upnpconfig.h</Outputs>
+      <Outputs>N/A</Outputs>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -115,7 +115,7 @@
     </Link>
     <CustomBuildStep>
       <Command>last.cmd</Command>
-      <Outputs>upnpconfig.h</Outputs>
+      <Outputs>N/A</Outputs>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -131,7 +131,7 @@
     </Link>
     <CustomBuildStep>
       <Command>last.cmd</Command>
-      <Outputs>upnpconfig.h</Outputs>
+      <Outputs>N/A</Outputs>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -151,7 +151,7 @@
     </Link>
     <CustomBuildStep>
       <Command>last.cmd</Command>
-      <Outputs>upnpconfig.h</Outputs>
+      <Outputs>N/A</Outputs>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemGroup>
