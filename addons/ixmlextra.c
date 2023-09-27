@@ -53,8 +53,13 @@ IXML_Node* XMLUpdateNode(IXML_Document* doc, IXML_Node* parent, bool refresh, co
 	if (!node) {
 		XMLAddNode(doc, parent, name, "%s", buf);
 	} else if (refresh) {
-		node = ixmlNode_getFirstChild(node);
-		ixmlNode_setNodeValue(node, buf);
+		IXML_Node* child = ixmlNode_getFirstChild(node);
+		if (!child) {
+			IXML_Node* child = ixmlDocument_createTextNode(doc, buf);
+			ixmlNode_appendChild(node, child);
+		} else {
+			ixmlNode_setNodeValue(child, buf);
+		}
 	}
 
 	va_end(args);
