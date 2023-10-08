@@ -93,6 +93,7 @@ do
 	export RANLIB=${CC%-*}-ranlib
 	if [[ $CC =~ -gcc ]]; then
 		export CXX=${CC%-*}-g++
+		CFLAGS+=" -fPIC"
 	else
 		export CXX=${CC%-*}-c++
 		CFLAGS+=" -fno-temp-file -stdlib=libc++"
